@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Node {
     protected int latency, distance, workload;
     protected String name;
-    static ArrayList<Node> servers = new ArrayList<Node>();
+    static ArrayList<Node> serverList = new ArrayList<Node>();
     static ArrayList<Client> clientList = new ArrayList<Client>();
     public Node(String name,int latency, int distance, int workload){
         this.name = name;
@@ -29,28 +29,57 @@ public class Node {
         return this.workload;
     }
 
-    public static void connectServer(ArrayList<Node> s){
-        for(Node a: s){
-            System.out.println(a.getName()  );
+    public static void connectServer(ArrayList<Node> s, ArrayList<Client> c){
+        for(Node server: s){
+            for(Client client: c){
+                if(client.getFlag()){
+                    if((client.getLatency() < 150) && ((client.getWorkload() + server.getWorkload() ) < 100)) {
+                        System.out.println(client.getName() + " >>>> "  + server.getName());
+                        //System.out.println(client.getName());
+                        client.setFlag(false);    
+                    }
+
+                    else if((client.getLatency() < 150) || ((client.getWorkload() + server.getWorkload() ) < 100) ) {
+                        System.out.println(client.getName() + " >>>> "  + server.getName());
+                    }
+
+                    else {
+                        System.out.println("No Optimal Server Available");
+                    }
+                }
+            }   
         }
     }
 
     public static void main(String[] args) {
-        Node a = new Node("1", 50, 50, 50);
+        Node a = new Node("Server 1", 50, 50, 20);
+        Node aa = new Node(" Server 2", 200, 50, 30);
+        Client b = new Client("Client 1", 50, 50, 20, true);
+        Client bb = new Client("Client 2", 50, 50, 50, true);
         System.out.println("hey");
-        servers.add(a);
-        connectServer(servers);
+        serverList.add(a);
+        serverList.add(aa);
+        clientList.add(b);
+        clientList.add(bb);
+        connectServer(serverList, clientList);
     }
   }
 
   //Represents a single client
 class Client {
+    protected String name;
     protected int latency, distance, workload;
-
-    public Client(int latency, int distance, int workload){
+    protected boolean flag;
+    public Client(String name, int latency, int distance, int workload, boolean flag){
+        this.name = name;
         this.latency = latency;
         this.distance = distance;
         this.workload = workload;
+        this.flag = flag;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public int getLatency() {
@@ -63,6 +92,14 @@ class Client {
 
     public int getWorkload() {
         return this.workload;
+    }
+
+    public boolean getFlag() {
+        return this.flag;
+    }
+
+    public void setFlag(boolean f) {
+        this.flag = f;
     }
   }
 
