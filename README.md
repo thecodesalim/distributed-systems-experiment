@@ -2,7 +2,7 @@
 
 A Greedy Algorithim for Server Selection in Cloud Gaming
 
-Developed for the server selction simulation for DISMOB COURSEWORK
+Developed for the server selection simulation for DISMOB COURSEWORK
 
 # Measurement
 
