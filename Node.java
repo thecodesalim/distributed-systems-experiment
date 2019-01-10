@@ -29,22 +29,32 @@ public class Node {
         return this.workload;
     }
 
+    public void setWorkload(int newWorkload) {
+        if(this.workload <= 100){
+            this.workload += newWorkload;
+        }
+    }
+
     public static void connectServer(ArrayList<Node> s, ArrayList<Client> c){
         for(Node server: s){
             for(Client client: c){
-                if(client.getFlag()){
+                if((client.getFlag()) && (server.getWorkload() < 100)){
                     if((client.getLatency() < 150) && ((client.getWorkload() + server.getWorkload() ) < 100)) {
+                        server.setWorkload(client.getWorkload());
                         System.out.println(client.getName() + " >>>> "  + server.getName());
-                        //System.out.println(client.getName());
-                        client.setFlag(false);    
+                        client.setFlag(false);  
+                        
                     }
 
                     else if((client.getLatency() < 150) || ((client.getWorkload() + server.getWorkload() ) < 100) ) {
+                        server.setWorkload(client.getWorkload());
                         System.out.println(client.getName() + " >>>> "  + server.getName());
+                        client.setFlag(false); 
                     }
 
                     else {
                         System.out.println("No Optimal Server Available");
+                        client.setFlag(false); 
                     }
                 }
             }   
@@ -52,16 +62,20 @@ public class Node {
     }
 
     public static void main(String[] args) {
-        Node a = new Node("Server 1", 50, 50, 20);
+
+        //Few test cases
+        Node a = new Node("Server 1", 50, 50, 50);
         Node aa = new Node(" Server 2", 200, 50, 30);
-        Client b = new Client("Client 1", 50, 50, 20, true);
-        Client bb = new Client("Client 2", 50, 50, 50, true);
-        System.out.println("hey");
+        Client b = new Client("Client 1", 50, 50, 69, true);
+        Client bb = new Client("Client 2", 50, 50, 70, true);
+
         serverList.add(a);
         serverList.add(aa);
         clientList.add(b);
         clientList.add(bb);
+
         connectServer(serverList, clientList);
+        
     }
   }
 
