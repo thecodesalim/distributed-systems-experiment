@@ -4,7 +4,9 @@ A Greedy Algorithim for Server Selection in Cloud Gaming
 
 Developed for the server selction simulation for DISMOB COURSEWORK
 
-Latenct Measured in ms
+# Measurement
+
+Latency Measured in ms
 
 Distance in m
 
